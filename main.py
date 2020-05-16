@@ -42,7 +42,7 @@ class PermutationScene(Scene):
             text.next_to(svgs[i], 0.1*TOP)
             text.scale(0.5)
         self.play(*[Write(text) for text in texts])
-        self.wait(3)
+        self.wait(5)
         # Create squares to show different permutations
         square_l = Square().shift(1.2*LEFT).shift(0.35*TOP)
         square_r = Square().shift(1.2*RIGHT).shift(0.35*TOP)
@@ -107,15 +107,15 @@ class PermutationScene(Scene):
         self.wait(3)
 
         # add braces
-        k_brace = Brace(Group(square_l, square_r), UP).set_color(GREEN)
-        k_brace_text = k_brace.get_tex("k"," = 2").set_color(GREEN)
-        self.play(GrowFromCenter(k_brace), FadeIn(k_brace_text))
-        self.wait(2)
-
         n_brace = Brace(Group(*svgs)).set_color(BLUE)
         n_brace_text = n_brace.get_tex("n"," = 5").set_color(BLUE)
         self.play(GrowFromCenter(n_brace), FadeIn(n_brace_text))
-        self.wait(2)
+        self.wait(11)
+
+        k_brace = Brace(Group(square_l, square_r), UP).set_color(GREEN)
+        k_brace_text = k_brace.get_tex("k"," = 2").set_color(GREEN)
+        self.play(GrowFromCenter(k_brace), FadeIn(k_brace_text))
+        self.wait(11)
 
         main_brace = Brace(result).set_color(RED)
         main_text = main_brace.get_tex("{n", "! ", "\over", "(", "n","-","k",")!}", " = ", "{ ", "5 \cdot 4 ", "\cdot", "3 \cdot 2 \cdot 1", "\over", "3 \cdot 2 \cdot 1}").scale(1.3)
@@ -130,18 +130,20 @@ class PermutationScene(Scene):
         original_left_pos = main_text[:8].get_center()
         main_text[:8].move_to(main_text.get_center())
         self.play(GrowFromCenter(main_brace), FadeIn(Group(main_text[1:4], main_text[5], main_text[7])), ReplacementTransform(n_brace_text[0].copy(), main_text[0]), ReplacementTransform(n_brace_text[0].copy(), main_text[4]), ReplacementTransform(k_brace_text[0].copy(), main_text[6]))
-        self.wait(2)
+        self.wait(8)
         self.play(ReplacementTransform(result.copy(), main_text[10]), FadeIn(main_text[8:10]), FadeIn(main_text[11:]), ApplyMethod(main_text[:8].move_to, original_left_pos))
-        self.wait(2)
+        self.wait(4)
 
         # Kürzen
         cross1 = Line(main_text[-1].get_left(), main_text[-1].get_right()).set_color(RED)
         cross2 = Line(main_text[-3].get_left(), main_text[-3].get_right()).set_color(RED)
 
         self.play(GrowFromEdge(cross1, LEFT), GrowFromEdge(cross2, LEFT))
-        self.wait(2)
         self.play(FadeOut(cross1), FadeOut(cross2), FadeOut(main_text[9]), FadeOut(main_text[11:]))
         self.play(ApplyMethod(main_text[10].next_to, Group(main_text[9:]).get_left()))
+        self.play(Indicate(main_text[10]))
+        self.wait(0.2)
+        self.play(Indicate(result))
         self.wait(4)
 
         # Show similarity
@@ -183,16 +185,16 @@ class WhatIsKFactorialScene(Scene):
         self.play(ApplyMethod(k_factorial.move_to, original_k_pos), FadeIn(equation[2]))
         self.wait(1)
         self.play(Write(equation[3:]))
-        self.wait(3)
+        self.wait(1)
         self.play(ApplyMethod(k_factorial.move_to, ORIGIN+0.35*TOP), FadeOut(equation[2:]))
-        self.wait(2)
+        self.wait(1)
         self.play(Write(definition))
         self.play(Write(definition_p2))
         self.wait(3)
         self.play(Indicate(definition[1]))
-        self.wait(3)
+        self.wait(1.5)
         self.play(Indicate(definition_p2[1]))
-        self.wait(2)
+        self.wait(9)
 
 class ComparisonScene(Scene):
     def construct(self):
@@ -218,19 +220,19 @@ class ComparisonScene(Scene):
         self.play(FadeInFromDown(group1), FadeInFromDown(group2), FadeInFromDown(plus_symbol), run_time=1)
         self.wait(2)
         self.play(FadeInFromDown(equals), FadeInFromDown(two))
-        self.wait(2)
+        self.wait(6)
         self.play(Write(cross))
         self.wait(1)
         self.play(FadeOut(cross))
-        self.wait(1)
+        self.wait(3)
         self.play(ReplacementTransform(two, one))
-        self.wait(2)
+        self.wait(1)
         self.play(ApplyMethod(equals.move_to, ORIGIN), ApplyMethod(group2.move_to, ORIGIN+2*RIGHT), ApplyMethod(group1.move_to, ORIGIN+2*LEFT), FadeOut(one), FadeOut(plus_symbol))
-        self.wait(2)
+        self.wait(1)
         self.play(Indicate(group1), Indicate(group2))
         self.wait(0.5)
         self.play(Indicate(equals))
-        self.wait(2)
+        self.wait(4)
 
 class FormulaScene(Scene):
     def construct(self):
@@ -247,21 +249,19 @@ class FormulaScene(Scene):
         binom[:5].set_x(0).set_y(0).shift(0.5*RIGHT)
 
         self.play(FadeIn(binom[:5]))
-        self.wait(2)
+        self.wait(27)
         self.play(ApplyMethod(binom[:5].shift, 0.3*TOP))
         self.wait(1)
         self.play(Write(definition))
-        self.wait(4)
         self.play(ZoomInAndOut(definition[1]), ZoomInAndOut(binom[2][0]))
-        self.wait(2)
         self.play(ZoomInAndOut(definition[3]), ZoomInAndOut(binom[2][1]))
-        self.wait(8)
+        self.wait(2)
         self.play(FadeOutAndShiftDown(definition))
         self.wait(2)
         self.play(ApplyMethod(binom[:5].move_to, original_pos))
         self.wait(0.5)
         self.play(Write(binom[5:]))
-        self.wait(4)
+        self.wait(10)
 
 class ExplainKFactorialScene(Scene):
     def construct(self):
@@ -274,12 +274,20 @@ class ExplainKFactorialScene(Scene):
         person_r = SVGMobject("student").set_color(BLUE)
 
         squares = VGroup(square_l, square_m, square_r).arrange_submobjects(RIGHT)
-        persons = VGroup(person_l, person_m, person_r).scale(0.6)
 
-        person_l.move_to(square_l)
-        person_r.move_to(square_r)
-        person_m.move_to(square_m)
+        text_m = TextMobject("Eve")
+        text_r = TextMobject("Alice")
+        text_l = TextMobject("Daniel")
+        texts = [text_l, text_m, text_r]
+        persons_arr = [person_l, person_m, person_r]
+        for i, text in enumerate(texts):
+            text.next_to(persons_arr[i], 0.3*TOP)
+            text.scale(1)
 
+        persons = VGroup(VGroup(person_l, text_l), VGroup(person_m, text_m), VGroup(person_r, text_r)).scale(0.6)
+        persons[0].move_to(square_l)
+        persons[2].move_to(square_r)
+        persons[1].move_to(square_m)
         # Explain Result
         def start_indication(mob):
             mob.scale_in_place(1.1)
@@ -312,7 +320,7 @@ class ExplainKFactorialScene(Scene):
         self.wait(0.5)
         self.play(ApplyFunction(end_indication, square_l))
 
-        self.play(person_l.move_to, square_l)
+        self.play(persons[0].move_to, square_l)
         self.wait(1)
         self.play(ApplyFunction(start_indication, square_m))
         self.wait(1)
@@ -321,7 +329,7 @@ class ExplainKFactorialScene(Scene):
         self.wait(0.5)
         self.play(ApplyFunction(end_indication, square_m))
 
-        self.play(person_m.move_to, square_m)
+        self.play(persons[1].move_to, square_m)
         self.wait(1)
         self.play(ApplyFunction(start_indication, square_r))
         self.wait(1)
@@ -331,9 +339,16 @@ class ExplainKFactorialScene(Scene):
         self.play(ApplyFunction(end_indication, square_r))
         self.wait(2)
 
-        self.play(person_r.move_to, square_r)
+        self.play(persons[2].move_to, square_r)
         self.play(VGroup(persons, squares).set_y, 0)
-        self.wait(2)
+        self.wait(1)
+
+        # show brace
+        k_brace = Brace(Group(square_l, square_m, square_r), UP).set_color(GREEN)
+        k_brace_text = k_brace.get_tex("k"," = 3").set_color(GREEN)
+        self.play(GrowFromCenter(k_brace), FadeIn(k_brace_text))
+
+        self.wait(1)
         left_pos_eq = equation[1:4].get_left()
         equation[4:].move_to(left_pos_eq).shift(RIGHT)
 
@@ -457,25 +472,64 @@ class ContinuedPermutationScene(Scene):
         self.wait(2)
 
         main_brace = Brace(result).set_color(RED)
-        main_text = main_brace.get_tex("{n", "! ", "\over", "k", "!\cdot", "(", "n","-","k",")!}").scale(1.3)
+        main_text = main_brace.get_tex("{n", "! ", "\over", "k", "!\cdot", "(", "n","-","k",")!}", "\over ", "k", "!").scale(1.3)
+        main_text_real_formula = main_brace.get_tex("{n", "! ", "\over", "k", "!\cdot", "(", "n","-","k",")!}")
 
         # n
         main_text[0].set_color(BLUE)
         main_text[6].set_color(BLUE)
+        main_text_real_formula[0].set_color(BLUE)
+        main_text_real_formula[6].set_color(BLUE)
         # k
         main_text[3].set_color(GREEN)
         main_text[8].set_color(GREEN)
+        main_text[11].set_color(GREEN)
+        main_text_real_formula[3].set_color(GREEN)
+        main_text_real_formula[8].set_color(GREEN)
 
+        main_text_real_formula2 = main_text_real_formula.copy()
 
-        before_x = main_text[5:].get_x()
-        main_text[5:].set_x(main_text.get_center()[0])
-        self.play(GrowFromCenter(main_brace), FadeIn(main_text[:3]), FadeIn(main_text[5:]))
-        self.wait(10)
-        self.play(FadeInFromDown(main_text[3:5]), ApplyMethod(main_text[5:].set_x, before_x))
-        self.wait(2)
+        before_x = main_text[5:10].get_x()
+        main_text[5:10].set_x(main_text.get_center()[0])
+        original_y = main_text.get_y()
+
+        main_text_real_formula[5:10].set_x(main_text.get_x())
+
+        self.play(GrowFromCenter(main_brace), FadeIn(main_text_real_formula[:3]), FadeIn(main_text_real_formula[5:]))
+        self.wait(7)
+        self.play(Indicate(result))
+        self.wait(13)
+        self.play(ReplacementTransform(main_text_real_formula[:3], main_text[:3]),
+                  ReplacementTransform(main_text_real_formula[5:], main_text[5:10]),
+                  FadeIn(main_text[10:]))
+        main_text_real_formula[5:10].set_x(before_x)
+
+        self.wait(6)
+        def scale_and_set(mob):
+            mob.scale_in_place(1.3)
+            mob.set_y(original_y)
+            return mob
+
+        self.play(ReplacementTransform(main_text[11:13], main_text_real_formula2[3:5]),
+                  FadeOut(main_text[10]),
+                  ReplacementTransform(main_text[:3], main_text_real_formula2[:3]),
+                  ReplacementTransform(main_text[5:10], main_text_real_formula2[5:]),
+                  FadeOut(main_text[10]))
+        self.play(ApplyFunction(scale_and_set, main_text_real_formula2))
+        self.wait(3)
         self.play(ReplacementTransform(result, real_result[0]), FadeIn(real_result[1]))
         self.wait(2)
         self.play(ReplacementTransform(real_result, calculated_result))
         self.wait(2)
         self.play(Indicate(calculated_result))
-        self.wait(2)
+        self.wait(4)
+        self.play(Indicate(main_text_real_formula2))
+        self.wait(1)
+
+        def move_and_scale(mob):
+            mob.scale_in_place(2)
+            mob.move_to(ORIGIN)
+            return mob
+
+        self.play(ApplyFunction(move_and_scale, main_text_real_formula2), FadeOut(left_side), FadeOut(equal), FadeOut(calculated_result), FadeOut(Group(k_brace_text, k_brace, n_brace_text, n_brace, main_brace)))
+        self.wait(7)
